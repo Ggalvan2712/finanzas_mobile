@@ -12,6 +12,6 @@
     "expo": "^50.0.0",
     "react": "18.2.0",
     "react-native": "0.73.5",
-    "react-native-chart-kit": "^6.16.0"
+    "react-native-chart-kit": "^6.12.0"
   }
 }
