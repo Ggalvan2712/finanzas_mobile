@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finanzas Personales</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --color-bg-light: #f4f4f4;
+      --color-text-light: #222;
+      --color-surface-light: #ffffff;
+      --color-primary-light: #004388;
+      --color-accent-light: #00acac;
+
+      --color-bg-dark: #1e1e1e;
+      --color-text-dark: #f4f4f4;
+      --color-surface-dark: #2c2c2c;
+      --color-primary-dark: #00acac;
+      --color-accent-dark: #8ec89a;
+    }
+
+    [data-theme="light"] {
+      --bg: var(--color-bg-light);
+      --text: var(--color-text-light);
+      --surface: var(--color-surface-light);
+      --primary: var(--color-primary-light);
+      --accent: var(--color-accent-light);
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--color-bg-dark);
+      --text: var(--color-text-dark);
+      --surface: var(--color-surface-dark);
+      --primary: var(--color-primary-dark);
+      --accent: var(--color-accent-dark);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    section, .summary, .chart-container {
+      background-color: var(--surface);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 0.2rem;
+      font-size: 1rem;
+    }
+
+    input, select {
+      background-color: var(--bg);
+      color: var(--text);
+      border: 1px solid #666;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent);
+    }
+
+    .registro {
+      margin-top: 1rem;
+    }
+
+    .ingreso, .deuda, .gasto {
+      padding: 0.5rem;
+      background-color: var(--bg);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .summary {
+      grid-column: span 2;
+      text-align: center;
+    }
+
+    .balance {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .chart-container {
+      grid-column: span 2;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mis Finanzas Personales</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+  </header>
+  <main>
+    <section>
+      <h2>Ingresos</h2>
+      <div class="form-group">
+        <label>Concepto</label>
+        <input type="text" id="ingresoConcepto" />
+      </div>
+      <div class="form-group">
+        <label>Monto</label>
+        <input type="number" id="ingresoMonto" />
+      </div>
+      <div class="form-group">
+        <label>Recurrente</label>
+        <select id="ingresoRecurrente">
+          <option value="0">Único</option>
+          <option value="3">Por 3 meses</option>
+          <option value="6">Por 6 meses</option>
+          <option value="-1">Indefinido</option>
+        </select>
+      </div>
+      <button onclick="agregarIngreso()">Agregar Ingreso</button>
+      <div class="registro" id="listaIngresos"></div>
+    </section>
+
+    <section>
+      <h2>Deudas</h2>
+      <div class="form-group">
+        <label>Concepto</label>
+        <input type="text" id="deudaConcepto" />
+      </div>
+      <div class="form-group">
+        <label>Monto</label>
+        <input type="number" id="deudaMonto" />
+      </div>
+      <div class="form-group">
+        <label>Meses</label>
+        <input type="number" id="deudaMeses" />
+      </div>
+      <div class="form-group">
+        <label>Aumento (% cada 3 meses)</label>
+        <input type="number" id="deudaAumento" value="0" />
+      </div>
+      <button onclick="agregarDeuda()">Agregar Deuda</button>
+      <div class="registro" id="listaDeudas"></div>
+    </section>
+
+    <section>
+      <h2>Gastos Diarios</h2>
+      <div class="form-group">
+        <label>Concepto</label>
+        <input type="text" id="gastoConcepto" />
+      </div>
+      <div class="form-group">
+        <label>Monto</label>
+        <input type="number" id="gastoMonto" />
+      </div>
+      <button onclick="agregarGasto()">Agregar Gasto</button>
+      <div class="registro" id="listaGastos"></div>
+    </section>
+
+    <section class="summary">
+      <div class="balance" id="balance"></div>
+    </section>
+
+    <section class="chart-container">
+      <canvas id="balanceChart"></canvas>
+    </section>
+  </main>
+
+  <script>
+    const ingresos = [];
+    const deudas = [];
+    const gastos = [];
+
+    function agregarIngreso() {
+      const concepto = document.getElementById('ingresoConcepto').value;
+      const monto = parseFloat(document.getElementById('ingresoMonto').value);
+      const meses = parseInt(document.getElementById('ingresoRecurrente').value);
+      ingresos.push({ concepto, monto, meses });
+      mostrarIngresos();
+      calcularBalance();
+    }
+
+    function agregarDeuda() {
+      const concepto = document.getElementById('deudaConcepto').value;
+      const monto = parseFloat(document.getElementById('deudaMonto').value);
+      const meses = parseInt(document.getElementById('deudaMeses').value);
+      const aumento = parseFloat(document.getElementById('deudaAumento').value);
+      deudas.push({ concepto, monto, meses, aumento });
+      mostrarDeudas();
+      calcularBalance();
+    }
+
+    function agregarGasto() {
+      const concepto = document.getElementById('gastoConcepto').value;
+      const monto = parseFloat(document.getElementById('gastoMonto').value);
+      gastos.push({ concepto, monto });
+      mostrarGastos();
+      calcularBalance();
+    }
+
+    function mostrarIngresos() {
+      const contenedor = document.getElementById('listaIngresos');
+      contenedor.innerHTML = ingresos.map(i => `<div class="ingreso">+ $${i.monto.toFixed(2)} (${i.concepto})</div>`).join('');
+    }
+
+    function mostrarDeudas() {
+      const contenedor = document.getElementById('listaDeudas');
+      contenedor.innerHTML = deudas.map(d => `<div class="deuda">- $${d.monto.toFixed(2)} (${d.concepto})</div>`).join('');
+    }
+
+    function mostrarGastos() {
+      const contenedor = document.getElementById('listaGastos');
+      contenedor.innerHTML = gastos.map(g => `<div class="gasto">- $${g.monto.toFixed(2)} (${g.concepto})</div>`).join('');
+    }
+
+    function calcularBalance() {
+      let ingresoTotal = ingresos.reduce((sum, i) => sum + i.monto, 0);
+      let deudaTotal = deudas.reduce((sum, d) => sum + d.monto, 0);
+      let gastoTotal = gastos.reduce((sum, g) => sum + g.monto, 0);
+      let disponible = ingresoTotal - deudaTotal - gastoTotal;
+
+      document.getElementById('balance').textContent = `Saldo disponible: $${disponible.toFixed(2)}`;
+      actualizarGrafico(ingresoTotal, deudaTotal, gastoTotal);
+    }
+
+    let chart;
+    function actualizarGrafico(ing, deu, gas) {
+      const ctx = document.getElementById('balanceChart').getContext('2d');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Ingresos', 'Deudas', 'Gastos'],
+          datasets: [{
+            data: [ing, deu, gas],
+            backgroundColor: ['#00acac', '#e74c3c', '#f39c12']
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              labels: {
+                color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f4f4f4' : '#222'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      if (chart) chart.options.plugins.legend.labels.color = newTheme === 'dark' ? '#f4f4f4' : '#222';
+      if (chart) chart.update();
+    }
+  </script>
+</body>
+</html>
