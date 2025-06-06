@@ -22,6 +22,8 @@ npm install
 npm start
 ```
 
+El punto de entrada de la app es `index.js`, que registra el componente `App`.
+
 ## Scripts disponibles
 
 ```bash
