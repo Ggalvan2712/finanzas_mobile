@@ -2,19 +2,12 @@ import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
 import type { Ingreso } from '@/hooks/useFinanzas';
+import type { Colors } from '@/context/ThemeContext';
 
 interface Props {
   ingresos: Ingreso[];
   onAdd: (ingreso: Ingreso) => void;
   colors: Colors;
-}
-
-export interface Colors {
-  bg: string;
-  text: string;
-  surface: string;
-  primary: string;
-  accent: string;
 }
 
 export default function IncomeSection({ ingresos, onAdd, colors }: Props) {

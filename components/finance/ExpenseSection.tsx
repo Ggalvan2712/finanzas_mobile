@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
 import type { Gasto } from '@/hooks/useFinanzas';
-import type { Colors } from './IncomeSection';
+import type { Colors } from '@/context/ThemeContext';
 
 interface Props {
   gastos: Gasto[];
