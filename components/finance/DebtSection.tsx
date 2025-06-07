@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Modal, Pressable, Switch } from 'react-native';
 
 import AppButton from '../AppButton';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useRouter } from 'expo-router';
 
 import type { Deuda } from '@/hooks/useFinanzas';
 import type { Colors } from '@/context/ThemeContext';
@@ -24,6 +25,13 @@ export default function DebtSection({ deudas, onAdd, colors, autoOpen = false }:
   const [aumentoMeses, setAumentoMeses] = useState('');
   const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (autoOpen) {
+      setShowModal(true);
+    }
+  }, [autoOpen]);
 
   const handleAdd = () => {
     const montoNum = parseFloat(monto);
@@ -47,6 +55,7 @@ export default function DebtSection({ deudas, onAdd, colors, autoOpen = false }:
     setIndefinido(true);
     setTieneAumento(false);
     setShowModal(false);
+    router.setParams({ add: undefined });
   };
 
   return (
@@ -132,7 +141,14 @@ export default function DebtSection({ deudas, onAdd, colors, autoOpen = false }:
               </>
             )}
             <AppButton title="Guardar" color={colors.primary} onPress={handleAdd} />
-            <AppButton title="Cancelar" color={colors.accent} onPress={() => setShowModal(false)} />
+            <AppButton
+              title="Cancelar"
+              color={colors.accent}
+              onPress={() => {
+                setShowModal(false);
+                router.setParams({ add: undefined });
+              }}
+            />
           </View>
         </View>
       </Modal>

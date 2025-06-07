@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Modal, Pressable } from 'react-native';
 
 import AppButton from '../AppButton';
@@ -6,6 +6,7 @@ import AppButton from '../AppButton';
 import type { Gasto } from '@/hooks/useFinanzas';
 import type { Colors } from '@/context/ThemeContext';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useRouter } from 'expo-router';
 
 interface Props {
   gastos: Gasto[];
@@ -19,6 +20,13 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
   const [monto, setMonto] = useState('');
   const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (autoOpen) {
+      setShowModal(true);
+    }
+  }, [autoOpen]);
 
   const handleAdd = () => {
     const montoNum = parseFloat(monto);
@@ -27,6 +35,7 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
     setConcepto('');
     setMonto('');
     setShowModal(false);
+    router.setParams({ add: undefined });
   };
 
   return (
@@ -67,7 +76,14 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
               />
             </View>
             <AppButton title="Guardar" color={colors.primary} onPress={handleAdd} />
-            <AppButton title="Cancelar" color={colors.accent} onPress={() => setShowModal(false)} />
+            <AppButton
+              title="Cancelar"
+              color={colors.accent}
+              onPress={() => {
+                setShowModal(false);
+                router.setParams({ add: undefined });
+              }}
+            />
           </View>
         </View>
       </Modal>
