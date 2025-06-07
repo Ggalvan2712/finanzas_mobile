@@ -98,13 +98,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     flexDirection: 'row-reverse',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     width: '100%',
     zIndex: 10,
   },
   option: {
     alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 8,
+    height: 56,
+    position: 'relative',
   },
   optionBtn: {
     width: 56,
@@ -116,6 +119,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
+    position: 'absolute',
+    top: 60,
   },
   addButton: {
     width: 56,
