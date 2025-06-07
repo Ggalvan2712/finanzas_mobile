@@ -5,6 +5,7 @@ import AppButton from '../AppButton';
 
 import type { Gasto } from '@/hooks/useFinanzas';
 import type { Colors } from '@/context/ThemeContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface Props {
   gastos: Gasto[];
@@ -16,6 +17,7 @@ export default function ExpenseSection({ gastos, onAdd, colors }: Props) {
   const [concepto, setConcepto] = useState('');
   const [monto, setMonto] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const { format } = useCurrency();
 
   const handleAdd = () => {
     const montoNum = parseFloat(monto);
@@ -37,7 +39,7 @@ export default function ExpenseSection({ gastos, onAdd, colors }: Props) {
       <View style={styles.list}>
         {gastos.map((g, idx) => (
           <Text key={idx} style={{ color: colors.text }}>
-            - ${g.monto.toFixed(2)} ({g.concepto})
+            - {format(g.monto)} ({g.concepto})
           </Text>
         ))}
       </View>

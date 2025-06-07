@@ -3,14 +3,17 @@ import { useState } from 'react';
 export interface Ingreso {
   concepto: string;
   monto: number;
-  meses: number;
+  meses: number; // 0 indica indefinido
+  aumento?: number;
+  aumentoFrecuencia?: number;
 }
 
 export interface Deuda {
   concepto: string;
   monto: number;
-  meses: number;
-  aumento: number;
+  meses: number; // 0 indica indefinido
+  aumento?: number;
+  aumentoFrecuencia?: number;
 }
 
 export interface Gasto {

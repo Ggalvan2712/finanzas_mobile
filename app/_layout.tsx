@@ -5,6 +5,7 @@ import 'react-native-reanimated';
 
 import { AppThemeProvider } from '@/context/ThemeContext';
 import { FinanceProvider } from '@/context/FinanceContext';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -17,13 +18,15 @@ export default function RootLayout() {
 
   return (
     <AppThemeProvider>
-      <FinanceProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </FinanceProvider>
+      <CurrencyProvider>
+        <FinanceProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style="auto" />
+        </FinanceProvider>
+      </CurrencyProvider>
     </AppThemeProvider>
   );
 }
