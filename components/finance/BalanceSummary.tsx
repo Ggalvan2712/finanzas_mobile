@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-import type { Colors } from './IncomeSection';
+import type { Colors } from '@/context/ThemeContext';
 
 interface Props {
   balance: number;
