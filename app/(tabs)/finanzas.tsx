@@ -35,27 +35,15 @@ export default function FinanzasScreen() {
           </View>
         </View>
         <View style={styles.content}>
-          <IncomeSection
-            ingresos={finance.ingresos}
-            onAdd={finance.agregarIngreso}
-            colors={colors}
-          />
+          <IncomeSection ingresos={finance.ingresos} colors={colors} />
           <Pressable onPress={() => router.push('/ingresos')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
           </Pressable>
-          <DebtSection
-            deudas={finance.deudas}
-            onAdd={finance.agregarDeuda}
-            colors={colors}
-          />
+          <DebtSection deudas={finance.deudas} colors={colors} />
           <Pressable onPress={() => router.push('/deudas')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
           </Pressable>
-          <ExpenseSection
-            gastos={finance.gastos}
-            onAdd={finance.agregarGasto}
-            colors={colors}
-          />
+          <ExpenseSection gastos={finance.gastos} colors={colors} />
           <Pressable onPress={() => router.push('/gastos')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
           </Pressable>
