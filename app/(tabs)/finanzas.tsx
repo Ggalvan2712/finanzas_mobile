@@ -62,7 +62,13 @@ export default function FinanzasScreen() {
           <Pressable onPress={() => router.push('/gastos')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
           </Pressable>
-          <BalanceChart ingresos={finance.ingresoTotal} deudas={finance.deudaTotal} gastos={finance.gastoTotal} colors={colors} />
+          <BalanceChart
+            ingresos={finance.ingresos}
+            deudas={finance.deudas}
+            gastos={finance.gastos}
+            colors={colors}
+            onAddPress={() => router.push('/finanzas?add=ingreso')}
+          />
         </View>
         <Modal transparent animationType="slide" visible={showCurrency}>
           <View style={styles.modalBackdrop}>

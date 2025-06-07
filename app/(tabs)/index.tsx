@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import BalanceChart from '@/components/finance/BalanceChart';
 import BalanceSummary from '@/components/finance/BalanceSummary';
@@ -26,9 +27,9 @@ export default function HomeScreen() {
             <>
               <BalanceSummary balance={finance.balance} colors={colors} />
               <BalanceChart
-                ingresos={finance.ingresoTotal}
-                deudas={finance.deudaTotal}
-                gastos={finance.gastoTotal}
+                ingresos={finance.ingresos}
+                deudas={finance.deudas}
+                gastos={finance.gastos}
                 colors={colors}
                 onAddPress={() => router.push('/finanzas?add=ingreso')}
               />
@@ -37,9 +38,9 @@ export default function HomeScreen() {
             <>
               <BalanceSummary balance={0} colors={colors} />
               <BalanceChart
-                ingresos={2000}
-                deudas={500}
-                gastos={800}
+                ingresos={[{ concepto: 'Ejemplo', monto: 2000, meses: 0 }]}
+                deudas={[{ concepto: 'Ejemplo', monto: 500, meses: 0 }]}
+                gastos={[{ concepto: 'Ejemplo', monto: 800 }]}
                 colors={colors}
                 onAddPress={() => router.push('/finanzas?add=ingreso')}
               />

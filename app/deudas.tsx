@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import ConceptChart from '@/components/finance/ConceptChart';
 import { useFinance } from '@/context/FinanceContext';
 import { useAppTheme } from '@/context/ThemeContext';

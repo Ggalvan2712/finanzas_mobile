@@ -48,10 +48,10 @@ export default function ConceptChart({ items, colors }: Props) {
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={styles.menu}>
         <Pressable onPress={() => setType('pie')}>
-          <Text style={[styles.menuItem, { color: type === 'pie' ? colors.primary : colors.text }]}>🍰</Text>
+          <Text style={[styles.menuItem, { color: type === 'pie' ? colors.primary : colors.text }]}>Pie</Text>
         </Pressable>
         <Pressable onPress={() => setType('bar')}>
-          <Text style={[styles.menuItem, { color: type === 'bar' ? colors.primary : colors.text }]}>📊</Text>
+          <Text style={[styles.menuItem, { color: type === 'bar' ? colors.primary : colors.text }]}>Barras</Text>
         </Pressable>
       </View>
       {items.length === 0 ? (
