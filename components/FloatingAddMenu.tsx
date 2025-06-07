@@ -30,18 +30,10 @@ export default function FloatingAddMenu({
     setOpen(!open);
   };
 
-  const optionStyle = (index: number) => ({
+  const optionStyle = {
     opacity: anim,
-    transform: [
-      {
-        translateX: anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, -(64 * (index + 1))],
-        }),
-      },
-      { scale: anim },
-    ],
-  });
+    transform: [{ scale: anim }],
+  };
 
   const debtColor = '#d04545';
 
@@ -50,7 +42,15 @@ export default function FloatingAddMenu({
       pointerEvents="box-none"
       style={[styles.wrapper, { bottom: insets.bottom + 16 }]}
     >
-      <Animated.View style={[styles.option, optionStyle(0)]} pointerEvents={open ? 'auto' : 'none'}>
+      <Pressable
+        style={[styles.addButton, { backgroundColor: colors.primary }]}
+        onPress={toggle}
+        accessibilityLabel="Agregar"
+      >
+        <Text style={[styles.addText, { color: '#fff' }]}>{open ? '×' : '＋'}</Text>
+      </Pressable>
+
+      <Animated.View style={[styles.option, optionStyle]} pointerEvents={open ? 'auto' : 'none'}>
         <Pressable
           style={[styles.optionBtn, { backgroundColor: colors.primary }]}
           onPress={() => {
@@ -63,7 +63,7 @@ export default function FloatingAddMenu({
         <Text style={[styles.label, { color: colors.text }]}>Ingreso</Text>
       </Animated.View>
 
-      <Animated.View style={[styles.option, optionStyle(1)]} pointerEvents={open ? 'auto' : 'none'}>
+      <Animated.View style={[styles.option, optionStyle]} pointerEvents={open ? 'auto' : 'none'}>
         <Pressable
           style={[styles.optionBtn, { backgroundColor: debtColor }]}
           onPress={() => {
@@ -76,7 +76,7 @@ export default function FloatingAddMenu({
         <Text style={[styles.label, { color: colors.text }]}>Deuda</Text>
       </Animated.View>
 
-      <Animated.View style={[styles.option, optionStyle(2)]} pointerEvents={open ? 'auto' : 'none'}>
+      <Animated.View style={[styles.option, optionStyle]} pointerEvents={open ? 'auto' : 'none'}>
         <Pressable
           style={[styles.optionBtn, { backgroundColor: colors.accent }]}
           onPress={() => {
@@ -89,13 +89,6 @@ export default function FloatingAddMenu({
         <Text style={[styles.label, { color: colors.text }]}>Gasto</Text>
       </Animated.View>
 
-      <Pressable
-        style={[styles.addButton, { backgroundColor: colors.primary }]}
-        onPress={toggle}
-        accessibilityLabel="Agregar"
-      >
-        <Text style={[styles.addText, { color: '#fff' }]}>{open ? '×' : '＋'}</Text>
-      </Pressable>
     </View>
   );
 }
@@ -104,8 +97,10 @@ const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
     right: 16,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'flex-end',
+    width: '100%',
+    zIndex: 10,
   },
   option: {
     alignItems: 'center',
