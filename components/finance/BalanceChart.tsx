@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 
 import type { Colors } from '@/context/ThemeContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface Props {
   ingresos: number;
@@ -11,12 +12,13 @@ interface Props {
 
 export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props) {
   // Placeholder for a chart library
+  const { format } = useCurrency();
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <Text style={[styles.text, { color: colors.text }]}>Grafico</Text>
-      <Text style={{ color: colors.text }}>Ingresos: {ingresos}</Text>
-      <Text style={{ color: colors.text }}>Deudas: {deudas}</Text>
-      <Text style={{ color: colors.text }}>Gastos: {gastos}</Text>
+      <Text style={{ color: colors.text }}>Ingresos: {format(ingresos)}</Text>
+      <Text style={{ color: colors.text }}>Deudas: {format(deudas)}</Text>
+      <Text style={{ color: colors.text }}>Gastos: {format(gastos)}</Text>
     </View>
   );
 }
