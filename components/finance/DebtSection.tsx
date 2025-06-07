@@ -11,9 +11,10 @@ interface Props {
   deudas: Deuda[];
   onAdd: (deuda: Deuda) => void;
   colors: Colors;
+  autoOpen?: boolean;
 }
 
-export default function DebtSection({ deudas, onAdd, colors }: Props) {
+export default function DebtSection({ deudas, onAdd, colors, autoOpen = false }: Props) {
   const [concepto, setConcepto] = useState('');
   const [monto, setMonto] = useState('');
   const [meses, setMeses] = useState('');
@@ -21,7 +22,7 @@ export default function DebtSection({ deudas, onAdd, colors }: Props) {
   const [tieneAumento, setTieneAumento] = useState(false);
   const [aumento, setAumento] = useState('');
   const [aumentoMeses, setAumentoMeses] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
 
   const handleAdd = () => {

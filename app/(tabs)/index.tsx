@@ -1,6 +1,5 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Link } from 'expo-router';
-import AppButton from '@/components/AppButton';
+import { useRouter } from 'expo-router';
 import BalanceChart from '@/components/finance/BalanceChart';
 import BalanceSummary from '@/components/finance/BalanceSummary';
 import { useFinance } from '@/context/FinanceContext';
@@ -8,6 +7,7 @@ import { useAppTheme } from '@/context/ThemeContext';
 
 export default function HomeScreen() {
   const finance = useFinance();
+  const router = useRouter();
   const { colors } = useAppTheme();
 
   const hasData =
@@ -30,12 +30,19 @@ export default function HomeScreen() {
                 deudas={finance.deudaTotal}
                 gastos={finance.gastoTotal}
                 colors={colors}
+                onAddPress={() => router.push('/finanzas?add=ingreso')}
               />
             </>
           ) : (
             <>
               <BalanceSummary balance={0} colors={colors} />
-              <BalanceChart ingresos={2000} deudas={500} gastos={800} colors={colors} />
+              <BalanceChart
+                ingresos={2000}
+                deudas={500}
+                gastos={800}
+                colors={colors}
+                onAddPress={() => router.push('/finanzas?add=ingreso')}
+              />
               <Text style={[styles.message, { color: colors.text }]}> 
                 Agrega información en la página de finanzas para ver tus propias
                 gráficas. Los gráficos mostrados son ejemplos de lo que puedes
@@ -43,11 +50,6 @@ export default function HomeScreen() {
               </Text>
             </>
           )}
-          <View style={styles.buttonWrapper}>
-            <Link href="/finanzas" asChild>
-              <AppButton title="Mis Finanzas" color={colors.accent} onPress={() => {}} />
-            </Link>
-          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -71,10 +73,6 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-  },
-  buttonWrapper: {
-    marginTop: 16,
-    width: '100%',
   },
   message: {
     textAlign: 'center',
