@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   optionBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 0,
   },
   label: {
     fontSize: 12,
