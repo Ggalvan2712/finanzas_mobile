@@ -1,41 +1,24 @@
-import { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import IncomeSection, { Colors } from '@/components/finance/IncomeSection';
+import IncomeSection from '@/components/finance/IncomeSection';
 import DebtSection from '@/components/finance/DebtSection';
 import ExpenseSection from '@/components/finance/ExpenseSection';
 import BalanceSummary from '@/components/finance/BalanceSummary';
 import BalanceChart from '@/components/finance/BalanceChart';
-import { useFinanzas } from '@/hooks/useFinanzas';
-
-const lightColors: Colors = {
-  bg: '#f4f4f4',
-  text: '#222',
-  surface: '#ffffff',
-  primary: '#004388',
-  accent: '#00acac',
-};
-
-const darkColors: Colors = {
-  bg: '#1e1e1e',
-  text: '#f4f4f4',
-  surface: '#2c2c2c',
-  primary: '#00acac',
-  accent: '#8ec89a',
-};
+import { useFinance } from '@/context/FinanceContext';
+import { useAppTheme } from '@/context/ThemeContext';
 
 export default function FinanzasScreen() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const colors = theme === 'dark' ? darkColors : lightColors;
-  const finance = useFinanzas();
+  const finance = useFinance();
+  const { colors, toggleTheme } = useAppTheme();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={[styles.header, { backgroundColor: colors.primary }]}>
           <Text style={[styles.headerText, { color: '#fff' }]}>Mis Finanzas Personales</Text>
-          <Pressable onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+          <Pressable onPress={() => toggleTheme()}>
             <Text style={styles.toggle}>🌓</Text>
           </Pressable>
         </View>

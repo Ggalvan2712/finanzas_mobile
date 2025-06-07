@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet, Modal, Pressable } from 'react-nativ
 import AppButton from '../AppButton';
 
 import type { Deuda } from '@/hooks/useFinanzas';
-import type { Colors } from './IncomeSection';
+import type { Colors } from '@/context/ThemeContext';
 
 interface Props {
   deudas: Deuda[];
