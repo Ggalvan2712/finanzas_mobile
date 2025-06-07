@@ -10,6 +10,7 @@ import BalanceChart from '@/components/finance/BalanceChart';
 import { useFinance } from '@/context/FinanceContext';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useCurrency, CurrencyCode } from '@/context/CurrencyContext';
+import AppButton from '@/components/AppButton';
 
 export default function FinanzasScreen() {
   const finance = useFinance();
