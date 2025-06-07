@@ -8,6 +8,9 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   # required for charts
+   npx expo install react-native-svg
+   npm install react-native-chart-kit
    ```
 
 2. Start the app

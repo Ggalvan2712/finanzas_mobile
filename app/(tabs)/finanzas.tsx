@@ -1,6 +1,6 @@
 import { ScrollView, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IncomeSection from '@/components/finance/IncomeSection';
@@ -18,6 +18,7 @@ export default function FinanzasScreen() {
   const { currency, setCurrency } = useCurrency();
   const [showCurrency, setShowCurrency] = useState(false);
   const params = useLocalSearchParams<{ add?: string }>();
+  const router = useRouter();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
@@ -40,18 +41,27 @@ export default function FinanzasScreen() {
             colors={colors}
             autoOpen={params.add === 'ingreso'}
           />
+          <Pressable onPress={() => router.push('/ingresos')}>
+            <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
+          </Pressable>
           <DebtSection
             deudas={finance.deudas}
             onAdd={finance.agregarDeuda}
             colors={colors}
             autoOpen={params.add === 'deuda'}
           />
+          <Pressable onPress={() => router.push('/deudas')}>
+            <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
+          </Pressable>
           <ExpenseSection
             gastos={finance.gastos}
             onAdd={finance.agregarGasto}
             colors={colors}
             autoOpen={params.add === 'gasto'}
           />
+          <Pressable onPress={() => router.push('/gastos')}>
+            <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
+          </Pressable>
           <BalanceChart ingresos={finance.ingresoTotal} deudas={finance.deudaTotal} gastos={finance.gastoTotal} colors={colors} />
         </View>
         <Modal transparent animationType="slide" visible={showCurrency}>
@@ -116,5 +126,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 16,
+  },
+  link: {
+    marginBottom: 8,
   },
 });
