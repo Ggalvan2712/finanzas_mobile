@@ -6,7 +6,6 @@ import AppButton from '../AppButton';
 import type { Gasto } from '@/hooks/useFinanzas';
 import type { Colors } from '@/context/ThemeContext';
 import { useCurrency } from '@/context/CurrencyContext';
-import { useRouter } from 'expo-router';
 
 interface Props {
   gastos: Gasto[];
@@ -20,7 +19,6 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
   const [monto, setMonto] = useState('');
   const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
-  const router = useRouter();
 
   useEffect(() => {
     if (autoOpen) {
@@ -35,7 +33,6 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
     setConcepto('');
     setMonto('');
     setShowModal(false);
-    router.setParams({ add: undefined });
   };
 
   return (
@@ -81,7 +78,6 @@ export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false
               color={colors.accent}
               onPress={() => {
                 setShowModal(false);
-                router.setParams({ add: undefined });
               }}
             />
           </View>

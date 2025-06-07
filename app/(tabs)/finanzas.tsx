@@ -1,6 +1,6 @@
 import { ScrollView, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { useState } from 'react';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FloatingAddMenu from '@/components/FloatingAddMenu';
 
@@ -18,7 +18,6 @@ export default function FinanzasScreen() {
   const { colors, toggleTheme } = useAppTheme();
   const { currency, setCurrency } = useCurrency();
   const [showCurrency, setShowCurrency] = useState(false);
-  const params = useLocalSearchParams<{ add?: string }>();
   const router = useRouter();
 
   return (
@@ -40,7 +39,6 @@ export default function FinanzasScreen() {
             ingresos={finance.ingresos}
             onAdd={finance.agregarIngreso}
             colors={colors}
-            autoOpen={params.add === 'ingreso'}
           />
           <Pressable onPress={() => router.push('/ingresos')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
@@ -49,7 +47,6 @@ export default function FinanzasScreen() {
             deudas={finance.deudas}
             onAdd={finance.agregarDeuda}
             colors={colors}
-            autoOpen={params.add === 'deuda'}
           />
           <Pressable onPress={() => router.push('/deudas')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
@@ -58,7 +55,6 @@ export default function FinanzasScreen() {
             gastos={finance.gastos}
             onAdd={finance.agregarGasto}
             colors={colors}
-            autoOpen={params.add === 'gasto'}
           />
           <Pressable onPress={() => router.push('/gastos')}>
             <Text style={[styles.link, { color: colors.primary }]}>Ver detalle</Text>
@@ -86,9 +82,9 @@ export default function FinanzasScreen() {
       </ScrollView>
       <FloatingAddMenu
         colors={colors}
-        onIngreso={() => router.push('/finanzas?add=ingreso')}
-        onDeuda={() => router.push('/finanzas?add=deuda')}
-        onGasto={() => router.push('/finanzas?add=gasto')}
+        onIngreso={() => router.push('/(modals)/ingreso')}
+        onDeuda={() => router.push('/(modals)/deuda')}
+        onGasto={() => router.push('/(modals)/gasto')}
       />
     </SafeAreaView>
   );

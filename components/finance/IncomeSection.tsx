@@ -3,7 +3,6 @@ import { View, Text, TextInput, StyleSheet, Modal, Pressable, Switch } from 'rea
 
 import AppButton from '../AppButton';
 import { useCurrency } from '@/context/CurrencyContext';
-import { useRouter } from 'expo-router';
 
 import type { Ingreso } from '@/hooks/useFinanzas';
 import type { Colors } from '@/context/ThemeContext';
@@ -25,7 +24,6 @@ export default function IncomeSection({ ingresos, onAdd, colors, autoOpen = fals
   const [aumentoMeses, setAumentoMeses] = useState('');
   const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
-  const router = useRouter();
 
   useEffect(() => {
     if (autoOpen) {
@@ -55,7 +53,6 @@ export default function IncomeSection({ ingresos, onAdd, colors, autoOpen = fals
     setIndefinido(true);
     setTieneAumento(false);
     setShowModal(false);
-    router.setParams({ add: undefined });
   };
 
   return (
@@ -146,7 +143,6 @@ export default function IncomeSection({ ingresos, onAdd, colors, autoOpen = fals
               color={colors.accent}
               onPress={() => {
                 setShowModal(false);
-                router.setParams({ add: undefined });
               }}
             />
           </View>

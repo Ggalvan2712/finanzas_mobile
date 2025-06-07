@@ -54,9 +54,9 @@ export default function HomeScreen() {
       </ScrollView>
       <FloatingAddMenu
         colors={colors}
-        onIngreso={() => router.push('/finanzas?add=ingreso')}
-        onDeuda={() => router.push('/finanzas?add=deuda')}
-        onGasto={() => router.push('/finanzas?add=gasto')}
+        onIngreso={() => router.push('/(modals)/ingreso')}
+        onDeuda={() => router.push('/(modals)/deuda')}
+        onGasto={() => router.push('/(modals)/gasto')}
       />
     </SafeAreaView>
   );
