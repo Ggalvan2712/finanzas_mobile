@@ -1,5 +1,6 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import FloatingAddMenu from '@/components/FloatingAddMenu';
 import { useRouter } from 'expo-router';
 import BalanceChart from '@/components/finance/BalanceChart';
 import BalanceSummary from '@/components/finance/BalanceSummary';
@@ -31,7 +32,6 @@ export default function HomeScreen() {
                 deudas={finance.deudas}
                 gastos={finance.gastos}
                 colors={colors}
-                onAddPress={() => router.push('/finanzas?add=ingreso')}
               />
             </>
           ) : (
@@ -42,7 +42,6 @@ export default function HomeScreen() {
                 deudas={[{ concepto: 'Ejemplo', monto: 500, meses: 0 }]}
                 gastos={[{ concepto: 'Ejemplo', monto: 800 }]}
                 colors={colors}
-                onAddPress={() => router.push('/finanzas?add=ingreso')}
               />
               <Text style={[styles.message, { color: colors.text }]}> 
                 Agrega información en la página de finanzas para ver tus propias
@@ -53,6 +52,12 @@ export default function HomeScreen() {
           )}
         </View>
       </ScrollView>
+      <FloatingAddMenu
+        colors={colors}
+        onIngreso={() => router.push('/finanzas?add=ingreso')}
+        onDeuda={() => router.push('/finanzas?add=deuda')}
+        onGasto={() => router.push('/finanzas?add=gasto')}
+      />
     </SafeAreaView>
   );
 }

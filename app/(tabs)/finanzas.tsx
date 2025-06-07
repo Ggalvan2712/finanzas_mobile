@@ -2,6 +2,7 @@ import { ScrollView, View, Text, StyleSheet, Pressable, Modal } from 'react-nati
 import { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import FloatingAddMenu from '@/components/FloatingAddMenu';
 
 import IncomeSection from '@/components/finance/IncomeSection';
 import DebtSection from '@/components/finance/DebtSection';
@@ -67,7 +68,6 @@ export default function FinanzasScreen() {
             deudas={finance.deudas}
             gastos={finance.gastos}
             colors={colors}
-            onAddPress={() => router.push('/finanzas?add=ingreso')}
           />
         </View>
         <Modal transparent animationType="slide" visible={showCurrency}>
@@ -84,6 +84,12 @@ export default function FinanzasScreen() {
           </View>
         </Modal>
       </ScrollView>
+      <FloatingAddMenu
+        colors={colors}
+        onIngreso={() => router.push('/finanzas?add=ingreso')}
+        onDeuda={() => router.push('/finanzas?add=deuda')}
+        onGasto={() => router.push('/finanzas?add=gasto')}
+      />
     </SafeAreaView>
   );
 }

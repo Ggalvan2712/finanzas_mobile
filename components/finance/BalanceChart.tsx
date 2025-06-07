@@ -11,10 +11,9 @@ interface Props {
   deudas: Deuda[];
   gastos: Gasto[];
   colors: Colors;
-  onAddPress?: () => void;
 }
 
-export default function BalanceChart({ ingresos, deudas, gastos, colors, onAddPress }: Props) {
+export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props) {
   const [view, setView] = useState<'general' | 'ingresos' | 'deudas' | 'gastos'>('general');
   const [chart, setChart] = useState<'pie' | 'bar'>('pie');
   const { format } = useCurrency();
@@ -111,15 +110,6 @@ export default function BalanceChart({ ingresos, deudas, gastos, colors, onAddPr
           <Text style={[styles.total, { color: colors.text }]}>Gastos: {format(gastoTotal)}</Text>
         </>
       )}
-      {onAddPress && (
-        <Pressable
-          style={[styles.addButton, { backgroundColor: colors.primary }]}
-          onPress={onAddPress}
-          accessibilityLabel="Agregar dato"
-        >
-          <Text style={[styles.addText, { color: '#fff' }]}>＋</Text>
-        </Pressable>
-      )}
     </View>
   );
 }
@@ -149,19 +139,5 @@ const styles = StyleSheet.create({
   total: {
     fontWeight: 'bold',
     marginTop: 8,
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 8,
-    right: 8,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addText: {
-    fontSize: 24,
-    fontWeight: '600',
   },
 });
