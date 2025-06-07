@@ -19,13 +19,15 @@ export default function BalanceSummary({ balance, colors }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    borderRadius: 8,
+    padding: 20,
+    borderRadius: 10,
     alignItems: 'center',
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   balance: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 22,
   },
 });

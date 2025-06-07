@@ -11,12 +11,13 @@ interface Props {
   gastos: Gasto[];
   onAdd: (gasto: Gasto) => void;
   colors: Colors;
+  autoOpen?: boolean;
 }
 
-export default function ExpenseSection({ gastos, onAdd, colors }: Props) {
+export default function ExpenseSection({ gastos, onAdd, colors, autoOpen = false }: Props) {
   const [concepto, setConcepto] = useState('');
   const [monto, setMonto] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(autoOpen);
   const { format } = useCurrency();
 
   const handleAdd = () => {

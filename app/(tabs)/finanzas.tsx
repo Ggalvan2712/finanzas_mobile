@@ -1,11 +1,11 @@
 import { ScrollView, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IncomeSection from '@/components/finance/IncomeSection';
 import DebtSection from '@/components/finance/DebtSection';
 import ExpenseSection from '@/components/finance/ExpenseSection';
-import BalanceSummary from '@/components/finance/BalanceSummary';
 import BalanceChart from '@/components/finance/BalanceChart';
 import { useFinance } from '@/context/FinanceContext';
 import { useAppTheme } from '@/context/ThemeContext';
@@ -17,6 +17,7 @@ export default function FinanzasScreen() {
   const { colors, toggleTheme } = useAppTheme();
   const { currency, setCurrency } = useCurrency();
   const [showCurrency, setShowCurrency] = useState(false);
+  const params = useLocalSearchParams<{ add?: string }>();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
@@ -33,10 +34,24 @@ export default function FinanzasScreen() {
           </View>
         </View>
         <View style={styles.content}>
-          <IncomeSection ingresos={finance.ingresos} onAdd={finance.agregarIngreso} colors={colors} />
-          <DebtSection deudas={finance.deudas} onAdd={finance.agregarDeuda} colors={colors} />
-          <ExpenseSection gastos={finance.gastos} onAdd={finance.agregarGasto} colors={colors} />
-          <BalanceSummary balance={finance.balance} colors={colors} />
+          <IncomeSection
+            ingresos={finance.ingresos}
+            onAdd={finance.agregarIngreso}
+            colors={colors}
+            autoOpen={params.add === 'ingreso'}
+          />
+          <DebtSection
+            deudas={finance.deudas}
+            onAdd={finance.agregarDeuda}
+            colors={colors}
+            autoOpen={params.add === 'deuda'}
+          />
+          <ExpenseSection
+            gastos={finance.gastos}
+            onAdd={finance.agregarGasto}
+            colors={colors}
+            autoOpen={params.add === 'gasto'}
+          />
           <BalanceChart ingresos={finance.ingresoTotal} deudas={finance.deudaTotal} gastos={finance.gastoTotal} colors={colors} />
         </View>
         <Modal transparent animationType="slide" visible={showCurrency}>
