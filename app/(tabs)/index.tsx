@@ -1,9 +1,6 @@
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
-import { StyleSheet, View, Pressable } from 'react-native';
-
-import BalanceChart from '@/components/finance/BalanceChart';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import AppButton from '@/components/AppButton';
 import { useFinance } from '@/context/FinanceContext';
 import { useAppTheme } from '@/context/ThemeContext';
 
@@ -12,27 +9,30 @@ export default function HomeScreen() {
   const { colors, toggleTheme } = useAppTheme();
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colors.bg }]}>
-      <View style={styles.menu}>
-        <Link href="/finanzas" style={[styles.menuItem, { backgroundColor: colors.primary }]}>
-          <ThemedText lightColor="#fff" darkColor="#fff">Finanzas</ThemedText>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Menú Principal</Text>
+      <View style={styles.buttonWrapper}>
+        <Link href="/finanzas" asChild>
+          <AppButton title="Mis Finanzas" color="#004388" onPress={() => {}} />
         </Link>
-        <Pressable onPress={toggleTheme} style={styles.menuItem}>
-          <ThemedText>🌓</ThemedText>
-        </Pressable>
       </View>
-      <BalanceChart
-        ingresos={finance.ingresoTotal}
-        deudas={finance.deudaTotal}
-        gastos={finance.gastoTotal}
-        colors={colors}
-      />
-    </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  menu: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 },
-  menuItem: { padding: 8, borderRadius: 4 },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 24,
+  },
+  buttonWrapper: {
+    width: '80%',
+  },
 });
