@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+
+import AppButton from '../AppButton';
 
 import type { Ingreso } from '@/hooks/useFinanzas';
 
@@ -61,7 +63,7 @@ export default function IncomeSection({ ingresos, onAdd, colors }: Props) {
           style={[styles.input, { color: colors.text, borderColor: colors.primary }]}
         />
       </View>
-      <Button title="Agregar Ingreso" color={colors.primary} onPress={handleAdd} />
+      <AppButton title="Agregar Ingreso" color={colors.primary} onPress={handleAdd} />
       <View style={styles.list}>
         {ingresos.map((i, idx) => (
           <Text key={idx} style={{ color: colors.text }}>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import IncomeSection, { Colors } from '@/components/finance/IncomeSection';
 import DebtSection from '@/components/finance/DebtSection';
@@ -30,21 +31,23 @@ export default function FinanzasScreen() {
   const finance = useFinanzas();
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: colors.bg }]}>
-      <View style={[styles.header, { backgroundColor: colors.primary }]}>
-        <Text style={[styles.headerText, { color: '#fff' }]}>Mis Finanzas Personales</Text>
-        <Pressable onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}> 
-          <Text style={styles.toggle}>🌓</Text>
-        </Pressable>
-      </View>
-      <View style={styles.content}>
-        <IncomeSection ingresos={finance.ingresos} onAdd={finance.agregarIngreso} colors={colors} />
-        <DebtSection deudas={finance.deudas} onAdd={finance.agregarDeuda} colors={colors} />
-        <ExpenseSection gastos={finance.gastos} onAdd={finance.agregarGasto} colors={colors} />
-        <BalanceSummary balance={finance.balance} colors={colors} />
-        <BalanceChart ingresos={finance.ingresoTotal} deudas={finance.deudaTotal} gastos={finance.gastoTotal} colors={colors} />
-      </View>
-    </ScrollView>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={[styles.header, { backgroundColor: colors.primary }]}>
+          <Text style={[styles.headerText, { color: '#fff' }]}>Mis Finanzas Personales</Text>
+          <Pressable onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            <Text style={styles.toggle}>🌓</Text>
+          </Pressable>
+        </View>
+        <View style={styles.content}>
+          <IncomeSection ingresos={finance.ingresos} onAdd={finance.agregarIngreso} colors={colors} />
+          <DebtSection deudas={finance.deudas} onAdd={finance.agregarDeuda} colors={colors} />
+          <ExpenseSection gastos={finance.gastos} onAdd={finance.agregarGasto} colors={colors} />
+          <BalanceSummary balance={finance.balance} colors={colors} />
+          <BalanceChart ingresos={finance.ingresoTotal} deudas={finance.deudaTotal} gastos={finance.gastoTotal} colors={colors} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -69,5 +72,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  scrollContent: {
+    paddingBottom: 16,
   },
 });
