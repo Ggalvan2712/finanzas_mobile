@@ -67,6 +67,8 @@ export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props
     datasets: [{ data: selectedItems.map((i) => i.monto) }],
   } as const;
 
+  const currentBarData = view === 'general' ? barDataGeneral : barDataItems;
+
   const chartConfig = {
     backgroundColor: colors.surface,
     backgroundGradientFrom: colors.surface,
@@ -153,7 +155,7 @@ export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props
         />
       ) : (
         <BarChart
-          data={view === 'general' ? barDataGeneral : barDataItems}
+          data={currentBarData}
           width={width}
           height={220}
           chartConfig={chartConfig}
