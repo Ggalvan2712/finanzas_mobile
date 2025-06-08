@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Pressable, Dimensions } from 'react-native';
-import { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  Animated,
+} from 'react-native';
+import { useState, useRef, useEffect } from 'react';
 import { PieChart, BarChart } from 'react-native-chart-kit';
 
 import type { Colors } from '@/context/ThemeContext';
@@ -16,8 +23,17 @@ interface Props {
 export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props) {
   const [view, setView] = useState<'general' | 'ingresos' | 'deudas' | 'gastos'>('general');
   const [chart, setChart] = useState<'pie' | 'bar'>('pie');
+  const submenuAnim = useRef(new Animated.Value(0)).current;
   const { format } = useCurrency();
   const width = Dimensions.get('window').width - 64;
+
+  useEffect(() => {
+    Animated.timing(submenuAnim, {
+      toValue: view === 'general' ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [view, submenuAnim]);
 
   const ingresoTotal = ingresos.reduce((s, i) => s + i.monto, 0);
   const deudaTotal = deudas.reduce((s, d) => s + d.monto, 0);
@@ -65,23 +81,66 @@ export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={styles.menu}>
         {(['general', 'ingresos', 'deudas', 'gastos'] as const).map((m) => (
-          <Pressable key={m} onPress={() => { setView(m); setChart('pie'); }}>
-            <Text style={[styles.menuItem, { color: view === m ? colors.primary : colors.text }]}>
+          <Pressable
+            key={m}
+            onPress={() => {
+              setView(m);
+              setChart('pie');
+            }}
+            style={({ pressed }) => [
+              styles.menuButton,
+              {
+                backgroundColor: view === m ? colors.primary : 'transparent',
+                opacity: pressed ? 0.75 : 1,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.menuItem,
+                { color: view === m ? '#fff' : colors.text },
+              ]}
+            >
               {m.charAt(0).toUpperCase() + m.slice(1)}
             </Text>
           </Pressable>
         ))}
       </View>
-      {view !== 'general' && (
-        <View style={styles.submenu}>
-          <Pressable onPress={() => setChart('pie')}>
-            <Text style={[styles.menuItem, { color: chart === 'pie' ? colors.primary : colors.text }]}>Pie</Text>
-          </Pressable>
-          <Pressable onPress={() => setChart('bar')}>
-            <Text style={[styles.menuItem, { color: chart === 'bar' ? colors.primary : colors.text }]}>Barras</Text>
-          </Pressable>
-        </View>
-      )}
+      <Animated.View
+        pointerEvents={view === 'general' ? 'none' : 'auto'}
+        style={[
+          styles.submenu,
+          {
+            opacity: submenuAnim,
+            transform: [{ scale: submenuAnim }],
+          },
+        ]}
+      >
+        <Pressable
+          onPress={() => setChart('pie')}
+          style={({ pressed }) => [
+            styles.menuButton,
+            {
+              backgroundColor: chart === 'pie' ? colors.primary : 'transparent',
+              opacity: pressed ? 0.75 : 1,
+            },
+          ]}
+        >
+          <Text style={[styles.menuItem, { color: chart === 'pie' ? '#fff' : colors.text }]}>Pie</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setChart('bar')}
+          style={({ pressed }) => [
+            styles.menuButton,
+            {
+              backgroundColor: chart === 'bar' ? colors.primary : 'transparent',
+              opacity: pressed ? 0.75 : 1,
+            },
+          ]}
+        >
+          <Text style={[styles.menuItem, { color: chart === 'bar' ? '#fff' : colors.text }]}>Barras</Text>
+        </Pressable>
+      </Animated.View>
       {showPie ? (
         <PieChart
           data={view === 'general' ? pieDataGeneral : pieDataItems}
@@ -131,6 +190,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginBottom: 8,
+  },
+  menuButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
   },
   menuItem: {
     fontSize: 16,
