@@ -160,6 +160,7 @@ export default function BalanceChart({ ingresos, deudas, gastos, colors }: Props
           withInnerLines={false}
           fromZero
           showValuesOnTopOfBars
+          verticalLabelRotation={30}
         />
       )}
       {view === 'general' && (
