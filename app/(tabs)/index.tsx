@@ -38,9 +38,19 @@ export default function HomeScreen() {
             <>
               <BalanceSummary balance={0} colors={colors} />
               <BalanceChart
-                ingresos={[{ concepto: 'Ejemplo', monto: 2000, meses: 0 }]}
-                deudas={[{ concepto: 'Ejemplo', monto: 500, meses: 0 }]}
-                gastos={[{ concepto: 'Ejemplo', monto: 800 }]}
+                ingresos={[
+                  { concepto: 'Salario', monto: 2000, meses: 0 },
+                  { concepto: 'Freelance', monto: 1200, meses: 0 },
+                ]}
+                deudas={[
+                  { concepto: 'Préstamo', monto: 500, meses: 0 },
+                  { concepto: 'Hipoteca', monto: 1000, meses: 0 },
+                ]}
+                gastos={[
+                  { concepto: 'Alquiler', monto: 800 },
+                  { concepto: 'Comida', monto: 300 },
+                  { concepto: 'Transporte', monto: 150 },
+                ]}
                 colors={colors}
               />
               <Text style={[styles.message, { color: colors.text }]}> 
